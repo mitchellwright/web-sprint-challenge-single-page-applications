@@ -1,10 +1,10 @@
 import React from "react";
+import Hero from './Components/Hero';
 
 const App = () => {
   return (
     <>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
+      <Hero />
     </>
   );
 };
