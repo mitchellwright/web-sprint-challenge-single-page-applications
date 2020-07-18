@@ -1,10 +1,20 @@
 import React from "react";
-import Hero from './Components/Hero';
+import { Route, Switch } from 'react-router-dom';
+import SiteWrapper from './Components/SiteWrapper';
+import Pizza from './Components/Pizza';
 
 const App = () => {
   return (
     <>
-      <Hero />
+
+      <Switch>
+        <Route exact path="/">
+          <SiteWrapper />
+        </Route>
+        <Route path="/pizza">
+          <Pizza />
+        </Route>
+      </Switch>
     </>
   );
 };
