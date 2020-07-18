@@ -1,39 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Pizza = (props) => {
+    const defaultState = {
+        pizzaSize: "Small",
+        cheese: false,
+        pepperoni: false,
+        mushrooms: false,
+        sauce: false,
+        specialInstructions: ""
+    };
+
+    const [order, setOrder] = useState([]);
+    const [formState, setFormState] = useState({...defaultState});
+
+    const formSubmit = e => {
+        e.preventDefault();
+        console.log("form submitted!");
+        console.log(formState);
+        axios
+          .post("https://reqres.in/api/users", formState)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err));
+
+          setFormState(defaultState);
+    };
+
+    const handleChange = e => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+
+        setFormState({
+            ...formState,
+            [e.target.name]: value
+        });
+    };
 
     return (
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form className="mt-8">
+                <form
+                    onSubmit={formSubmit}
+                    className="mt-8"
+                >
                     <div>
                         <label htmlFor="pizzaSize" className="block text-sm leading-5 font-medium text-gray-700">Pizza Size</label>
-                        <select id="pizzaSize" className="mt-1 form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
-                            <option>Small</option>
-                            <option>Medium</option>
-                            <option>Large</option>
+                        <select
+                            id="pizzaSize"
+                            onChange={handleChange}
+                            name="pizzaSize"
+                            className="mt-1 form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
+                        >
+                            <option value="Small">Small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
                         </select>
                     </div>
                     <div class="flex items-center mt-4">
-                        <input id="cheese" type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                        <input
+                            id="cheese"
+                            type="checkbox"
+                            name="cheese"
+                            onChange={handleChange}
+                            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        />
                         <label htmlFor="cheese" className="ml-2 block text-sm leading-5 text-gray-900">
                             Cheese?
                         </label>
                     </div>
                     <div class="flex items-center">
-                        <input id="pepperoni" type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                        <input
+                            id="pepperoni"
+                            type="checkbox"
+                            name="pepperoni"
+                            onChange={handleChange}
+                            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        />
                         <label htmlFor="pepperoni" className="ml-2 block text-sm leading-5 text-gray-900">
                             Pepperoni?
                         </label>
                     </div>
                     <div class="flex items-center">
-                        <input id="mushrooms" type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                        <input
+                            id="mushrooms"
+                            type="checkbox"
+                            name="mushrooms"
+                            onChange={handleChange}
+                            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        />
                         <label htmlFor="mushrooms" className="ml-2 block text-sm leading-5 text-gray-900">
                             Mushrooms?
                         </label>
                     </div>
                     <div class="flex items-center">
-                        <input id="sauce" type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                        <input
+                            id="sauce"
+                            type="checkbox"
+                            name="sauce"
+                            onChange={handleChange}
+                            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        />
                         <label htmlFor="sauce" className="ml-2 block text-sm leading-5 text-gray-900">
                             Sauce?
                         </label>
@@ -43,6 +108,8 @@ const Pizza = (props) => {
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <input
                                 id="specialInstructions"
+                                name="specialInstructions"
+                                onChange={handleChange}
                                 class="form-input block w-full sm:text-sm sm:leading-5"
                                 placeholder="Anything you would like to add?"
                             />
