@@ -1,7 +1,4 @@
 import React from 'react';
-import Hero from './Hero';
-import Delivery from './Delivery';
-import Navigation from './Navigation';
 
 
 const SiteWrapper = (props) => {
@@ -30,9 +27,8 @@ const SiteWrapper = (props) => {
             </div>
 
             <div className="relative pt-6 pb-12 sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
-                <Navigation />
-                <Hero />
-                <Delivery />
+                {props.navigation}
+                {props.page}
         </div>
         </div>
     );

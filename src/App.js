@@ -2,6 +2,8 @@ import React from "react";
 import { Route, Switch } from 'react-router-dom';
 import SiteWrapper from './Components/SiteWrapper';
 import Pizza from './Components/Pizza';
+import Navigation from './Components/Navigation';
+import Home from './Components/Home';
 
 const App = () => {
   return (
@@ -9,10 +11,10 @@ const App = () => {
 
       <Switch>
         <Route exact path="/">
-          <SiteWrapper />
+          <SiteWrapper navigation={<Navigation />} page={<Home />} />
         </Route>
         <Route path="/pizza">
-          <Pizza />
+          <SiteWrapper navigation={<Navigation />} page={<Pizza />} />
         </Route>
       </Switch>
     </>
