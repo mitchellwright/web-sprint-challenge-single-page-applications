@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Pizza = (props) => {
     const defaultState = {
+        name: "",
         pizzaSize: "Small",
         cheese: false,
         pepperoni: false,
@@ -11,8 +12,12 @@ const Pizza = (props) => {
         specialInstructions: ""
     };
 
-    const [order, setOrder] = useState([]);
     const [formState, setFormState] = useState({...defaultState});
+    const [formErrors, setFormErrors] = useState({name: ""});
+
+    useEffect(() => {
+        formState.name.length > 1 ? setFormErrors({...formErrors, name: ''}) : setFormErrors({...formErrors, name: 'Name must be at least two characters'});
+    }, [formState]);
 
     const formSubmit = e => {
         e.preventDefault();
@@ -43,10 +48,26 @@ const Pizza = (props) => {
                     className="mt-8"
                 >
                     <div>
+                        <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
+                            Name
+                        </label>
+                        <div className="mt-1 rounded-md shadow-sm">
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                value={formState.name}
+                                onChange={handleChange}
+                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                        </div>
+                    </div>
+                    {formErrors.name.length > 0 && <p class="mt-2 text-sm text-red-600" id="name-error">Name must be at least two characters</p>}
+                    <div className="mt-4">
                         <label htmlFor="pizzaSize" className="block text-sm leading-5 font-medium text-gray-700">Pizza Size</label>
                         <select
                             id="pizzaSize"
                             onChange={handleChange}
+                            value={formState.pizzaSize}
                             name="pizzaSize"
                             className="mt-1 form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                         >
@@ -61,6 +82,7 @@ const Pizza = (props) => {
                             type="checkbox"
                             name="cheese"
                             onChange={handleChange}
+                            checked={formState.cheese}
                             className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                         />
                         <label htmlFor="cheese" className="ml-2 block text-sm leading-5 text-gray-900">
@@ -69,6 +91,7 @@ const Pizza = (props) => {
                     </div>
                     <div class="flex items-center">
                         <input
+                            checked={formState.pepperoni}
                             id="pepperoni"
                             type="checkbox"
                             name="pepperoni"
@@ -85,6 +108,7 @@ const Pizza = (props) => {
                             type="checkbox"
                             name="mushrooms"
                             onChange={handleChange}
+                            checked={formState.mushrooms}
                             className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                         />
                         <label htmlFor="mushrooms" className="ml-2 block text-sm leading-5 text-gray-900">
@@ -97,6 +121,7 @@ const Pizza = (props) => {
                             type="checkbox"
                             name="sauce"
                             onChange={handleChange}
+                            checked={formState.sauce}
                             className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                         />
                         <label htmlFor="sauce" className="ml-2 block text-sm leading-5 text-gray-900">
@@ -104,12 +129,13 @@ const Pizza = (props) => {
                         </label>
                     </div>
                     <div className="mt-4">
-                        <label for="specialInstructions" class="block text-sm font-medium leading-5 text-gray-700">Special Instructions</label>
+                        <label htmlFor="specialInstructions" class="block text-sm font-medium leading-5 text-gray-700">Special Instructions</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <input
                                 id="specialInstructions"
                                 name="specialInstructions"
                                 onChange={handleChange}
+                                value={formState.specialInstructions}
                                 class="form-input block w-full sm:text-sm sm:leading-5"
                                 placeholder="Anything you would like to add?"
                             />
