@@ -1,10 +1,22 @@
 import React from "react";
+import { Route, Switch } from 'react-router-dom';
+import SiteWrapper from './Components/SiteWrapper';
+import Pizza from './Components/Pizza';
+import Navigation from './Components/Navigation';
+import Home from './Components/Home';
 
 const App = () => {
   return (
     <>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
+
+      <Switch>
+        <Route exact path="/">
+          <SiteWrapper navigation={<Navigation />} page={<Home />} />
+        </Route>
+        <Route path="/pizza">
+          <SiteWrapper navigation={<Navigation />} page={<Pizza />} />
+        </Route>
+      </Switch>
     </>
   );
 };
